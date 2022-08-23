@@ -1,12 +1,9 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - kouroshD
 
 github_repos:
-  - alshedivat/al-folio
-  - twbs/bootstrap
-  - jekyll/jekyll
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - jpswalsh/academicons
-  - mathjax/MathJax
+  - robotology/walking-teleoperation
+  - kouroshD/ANDOR
+  - kouroshD/PathPlanning
+  - kouroshD/HMPdetector
+  - kouroshD/AI_Planner

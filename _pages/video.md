@@ -1,7 +1,7 @@
 ---
 layout: page
-permalink: /teaching/
-title: teaching
+permalink: /video/
+title: video
 description: WIP.
 nav: true
 nav_order: 5
