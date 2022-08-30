@@ -21,10 +21,11 @@ social: true  # includes social icons at the bottom of the page
 ---
 
 
-I am a postdoctorl researcher at the [Computer Science](https://web.cs.toronto.edu/) and [Robotics Institute](https://robotics.utoronto.ca/) of [University of Toronto](https://www.utoronto.ca/) and a member of the [Vector Institute](https://vectorinstitute.ai/).
+
+I am a postdoctoral researcher at the [Computer Science](https://web.cs.toronto.edu/) and [Robotics Institute](https://robotics.utoronto.ca/) of [University of Toronto](https://www.utoronto.ca/) and a member of the [Vector Institute](https://vectorinstitute.ai/).
 I am doing research at [People, AI, & Robots (PAIR)](https://www.pair.toronto.edu/) lab directed by [Animesh Garg](https://animesh.garg.tech/) and [Robot Vision and Learning (RVL)](https://rvl.cs.toronto.edu/#/) lab directed by [Florian Shkurti](http://www.cs.toronto.edu/~florian/).
 
-My research interests lie at the intersection of robotics, control theory, planning, and machine learning. In particular, I am interested on algorithmic development of shared autonomy, where robots interact with humans.
+My research interests lie at the intersection of robotics, control theory, planning, and machine learning. In particular, I am interested in the algorithmic development of shared autonomy, where robots interact with humans.
 
 I received B.Sc. and M.Sc. degrees in Aerospace Engineering from [K.N. Toosi University of Technology](https://www.kntu.ac.ir/) and [Sharif University of Technology](https://en.sharif.edu/), Tehran, Iran.
 Later, I earned PhD in Bioengineering & Robotics from the [University of Genoa](https://unige.it/en/), Italy, where I developed novel techniques for human-robot collaboration. From Nov 2018- May 2022, I was a post-doctoral researcher at the [Italian Institute of Technology (IIT)](https://www.iit.it/it/home) in the [Artificial and Mechanical Intelligence](https://ami.iit.it/) lab. During this period, I have collaborated on [AnDy](https://andy-project.eu/) and [SoftManBot](http://softmanbot.eu/) H2020 European projects, Italian National [ergoCub project](https://ami.iit.it/projects), and international [ANA Avatar XPRIZE $10M competition](https://www.xprize.org/prizes/avatar). At IIT, I have worked on human motion perception and prediction, humanoid robot teleoperation, and safety and ergonomics enhancement in human-robot collaboration.
