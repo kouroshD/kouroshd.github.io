@@ -126,5 +126,5 @@ Simply upload all files to any web hosting service.
 
 ## Contact
 
-📧 kourosh.darvish@mail.utoronto.ca  
-🔗 [GitHub](https://github.com/kouroshD) | [Google Scholar](https://scholar.google.com) | [LinkedIn](https://linkedin.com)
+📧 kourosh.darvish@utoronto.ca  
+🔗 [GitHub](https://github.com/kouroshD) | [LinkedIn](https://www.linkedin.com/in/kouroshdarvish)
