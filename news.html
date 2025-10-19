@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News - Kourosh Darvish</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .news-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .news-media-container {
+            flex-shrink: 0;
+            width: 150px;
+            height: 100px;
+            position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-secondary);
+        }
+
+        .news-media {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+        }
+
+        .news-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        @media (max-width: 768px) {
+            .news-item {
+                flex-direction: column;
+            }
+
+            .news-media-container {
+                width: 100%;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <span id="theme-icon">🌙</span>
+    </button>
+
+    <div class="container">
+        <header style="border-bottom: 2px solid var(--border); padding-bottom: 20px; margin-bottom: 30px;">
+            <h1>News & Updates</h1>
+            <nav style="margin-top: 20px;">
+                <a href="index.html">home</a>
+                <a href="about.html">about</a>
+                <a href="research.html">research</a>
+                <a href="publications.html">publications</a>
+                <a href="news.html">news</a>
+            </nav>
+        </header>
+
+        <main>
+            <section>
+                <h2>All News</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                    Latest updates, publications, talks, and announcements
+                </p>
+
+                <div id="all-news" class="news-list">
+                    <p style="color: var(--text-secondary);">Loading news...</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Last updated: <span id="last-updated"></span> | © 2024 Kourosh Darvish</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        async function loadAllNews() {
+            try {
+                const response = await fetch('data/news.json');
+                const data = await response.json();
+
+                const newsContainer = document.getElementById('all-news');
+
+                if (!data.news || data.news.length === 0) {
+                    newsContainer.innerHTML = '<p style="color: var(--text-secondary);">No news yet.</p>';
+                    return;
+                }
+
+                const newsHTML = data.news
+                    .filter(item => !item.hidden)
+                    .map(item => createNewsHTML(item))
+                    .join('');
+                newsContainer.innerHTML = newsHTML;
+
+                if (data.last_updated) {
+                    const date = new Date(data.last_updated);
+                    document.getElementById('last-updated').textContent = date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error loading news:', error);
+                document.getElementById('all-news').innerHTML =
+                    '<p style="color: var(--text-secondary);">Unable to load news.</p>';
+            }
+        }
+
+        function createNewsHTML(item) {
+            let mediaHTML = '';
+
+            // Add media if available
+            if (item.media_link && item.media_type) {
+                if (item.media_type === 'video') {
+                    mediaHTML = `
+                        <div class="news-media-container">
+                            <img src="${getVideoThumbnail(item.media_link)}" alt="${item.title}" class="news-media">
+                            <div class="news-play-button">▶</div>
+                        </div>
+                    `;
+                } else if (item.media_type === 'image') {
+                    mediaHTML = `
+                        <div class="news-media-container">
+                            <img src="${item.media_link}" alt="${item.title}" class="news-media">
+                        </div>
+                    `;
+                }
+            }
+
+            const linkHTML = item.link ? `<a href="${item.link}" target="_blank" style="font-size: 12px; margin-top: 8px; display: inline-block;">→ read more</a>` : '';
+
+            return `
+                <div class="news-item">
+                    ${mediaHTML}
+                    <div class="news-content">
+                        <div class="date">${item.date}</div>
+                        <div class="title">${item.title}</div>
+                        ${item.description ? `<div class="description">${item.description}</div>` : ''}
+                        ${linkHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getVideoThumbnail(videoUrl) {
+            if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                const videoId = videoUrl.split('v=')[1]?.split('&')[0] || videoUrl.split('/').pop();
+                return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+            }
+            return videoUrl;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAllNews);
+    </script>
+</body>
+
+</html>

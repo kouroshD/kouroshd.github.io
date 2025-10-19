@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications - Kourosh Darvish</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pub-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .pub-media-container {
+            flex-shrink: 0;
+            width: 200px;
+            height: 150px;
+            position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pub-media {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pub-placeholder-icon {
+            font-size: 48px;
+            opacity: 0.3;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+        }
+
+        .pub-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        @media (max-width: 768px) {
+            .pub-item {
+                flex-direction: column;
+            }
+
+            .pub-media-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <span id="theme-icon">🌙</span>
+    </button>
+
+    <div class="container">
+        <header style="border-bottom: 2px solid var(--border); padding-bottom: 20px; margin-bottom: 30px;">
+            <h1>Publications</h1>
+            <nav style="margin-top: 20px;">
+                <a href="index.html">home</a>
+                <a href="about.html">about</a>
+                <a href="research.html">research</a>
+                <a href="publications.html">publications</a>
+                <a href="news.html">news</a>
+            </nav>
+        </header>
+
+        <main>
+            <section>
+                <div id="publications-container" class="publications-grid">
+                    <p style="color: var(--text-secondary);">Loading publications...</p>
+                </div>
+                <div class="external-links">
+                    <p>For a complete list of publications, please visit:</p>
+                    <div class="contact-links">
+                        <a href="https://scholar.google.com/citations?user=FwFFVdIAAAAJ" target="_blank"><i
+                                class="fas fa-graduation-cap"></i> Google Scholar</a>
+                        <a href="https://dblp.org/pid/211/3074.html" target="_blank"><i class="fas fa-database"></i>
+                            DBLP</a>
+                        <a href="https://arxiv.org/search/?searchtype=author&query=Darvish%2C+K" target="_blank"><i
+                                class="fas fa-archive"></i> arXiv</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2024 Kourosh Darvish</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        async function loadPublications() {
+            try {
+                const response = await fetch('data/publications.json');
+                const data = await response.json();
+
+                const publicationsContainer = document.getElementById('publications-container');
+                if (data.publications && data.publications.length > 0) {
+                    publicationsContainer.innerHTML = data.publications.map(pub => createPubHTML(pub)).join('');
+                } else {
+                    publicationsContainer.innerHTML = '<p style="color: var(--text-secondary);">No publications available.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading publications:', error);
+                document.getElementById('publications-container').innerHTML =
+                    '<p style="color: var(--text-secondary);">Unable to load publications.</p>';
+            }
+        }
+
+        function createPubHTML(pub) {
+            let mediaHTML = '';
+
+            // Create media container (always present)
+            if (pub.media_link && pub.media_type) {
+                if (pub.media_type === 'video') {
+                    mediaHTML = `
+                        <div class="pub-media-container">
+                            <img src="${getVideoThumbnail(pub.media_link)}" alt="${pub.title}" class="pub-media">
+                            <div class="play-button">▶</div>
+                        </div>
+                    `;
+                } else if (pub.media_type === 'image') {
+                    mediaHTML = `
+                        <div class="pub-media-container">
+                            <img src="${pub.media_link}" alt="${pub.title}" class="pub-media">
+                        </div>
+                    `;
+                }
+            } else {
+                // Default placeholder icon
+                mediaHTML = `
+                    <div class="pub-media-container">
+                        <div class="pub-placeholder-icon">📄</div>
+                    </div>
+                `;
+            }
+
+            // Build description
+            let descriptionHTML = '';
+            if (pub.description) {
+                descriptionHTML = `<p style="color: var(--text-secondary); font-size: 13px; margin-top: 8px; line-height: 1.5;">${pub.description}</p>`;
+            }
+
+            // Build links
+            let linksHTML = '<div class="pub-meta" style="margin-top: 10px;">';
+            if (pub.pdf_link) linksHTML += `<span>📄 <a href="${pub.pdf_link}" target="_blank">PDF</a></span>`;
+            if (pub.doi_link) linksHTML += `<span>🔗 <a href="${pub.doi_link}" target="_blank">DOI</a></span>`;
+            if (pub.project_page) linksHTML += `<span>🌐 <a href="${pub.project_page}" target="_blank">Project</a></span>`;
+            if (pub.media_link) {
+                const mediaLabel = pub.media_type === 'video' ? 'Video' : 'Media';
+                linksHTML += `<span>🎬 <a href="${pub.media_link}" target="_blank">${mediaLabel}</a></span>`;
+            }
+            linksHTML += '</div>';
+
+            return `
+                <div class="pub-item">
+                    ${mediaHTML}
+                    <div class="pub-content">
+                        <div class="pub-title">${pub.title}</div>
+                        <div class="pub-authors">${pub.authors}</div>
+                        <div class="pub-venue">${pub.venue}, ${pub.year}</div>
+                        ${descriptionHTML}
+                        ${linksHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getVideoThumbnail(videoUrl) {
+            if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                const videoId = videoUrl.split('v=')[1]?.split('&')[0] || videoUrl.split('/').pop();
+                return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+            }
+            return videoUrl;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPublications);
+    </script>
+</body>
+
+</html>

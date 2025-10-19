@@ -1,0 +1,24 @@
+{
+    "news": [
+        {
+            "date": "2025-10-15",
+            "title": "Paper present at CoRL 2025",
+            "description": "Our AnyPlace work on generalized robot placement was present at CoRL 2025.",
+            "type": "publication",
+            "link": "https://corl.org",
+            "media_type": "video",
+            "media_link": "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
+        },
+        {
+            "date": "2024-09-20",
+            "title": "Presented at IROS 2024",
+            "description": "Gave a talk on shared autonomy in human-robot interaction at IROS 2024 in Abu Dhabi.",
+            "type": "news",
+            "link": "https://iros2024.org",
+            "media_type": "video",
+            "media_link": "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+            "hidden": true
+        }
+    ],
+    "last_updated": "2024-10-18T00:00:00Z"
+}
