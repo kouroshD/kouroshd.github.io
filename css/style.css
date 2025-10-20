@@ -29,12 +29,17 @@
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 body {
-    font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+    font-family: 'JetBrains Mono', 'Courier New', 'Consolas', 'Monaco', monospace;
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
     font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.02em;
 }
 
 .container {
@@ -84,9 +89,11 @@ body {
     width: 180px;
     height: 180px;
     border-radius: 50%;
-    border: 3px solid var(--accent);
+    border: 3px solid var(--border);
     object-fit: cover;
     flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--success) 100%);
 }
 
 .profile-info {
@@ -96,23 +103,27 @@ body {
 
 h1 {
     color: var(--text-primary);
-    font-size: 32px;
+    font-size: 2.5rem;
     margin-bottom: 8px;
     font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 .title {
     color: var(--accent);
-    font-size: 18px;
+    font-size: 1.25rem;
     margin-bottom: 12px;
-    font-weight: 600;
+    font-weight: 500;
+    letter-spacing: -0.01em;
 }
 
 .affiliations {
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: 1rem;
     margin-bottom: 15px;
     line-height: 1.8;
+    font-weight: 400;
 }
 
 .research-focus {
@@ -151,9 +162,9 @@ nav a:hover {
     color: var(--accent-hover);
 }
 
+/* Remove the $ sign from navigation */
 nav a::before {
-    content: "$ ";
-    color: var(--success);
+    content: none !important;
 }
 
 section {
@@ -173,27 +184,78 @@ h2 {
     padding-bottom: 10px;
 }
 
-h3 {
-    color: var(--accent);
-    font-size: 16px;
-    margin-bottom: 10px;
-    font-weight: 600;
+.main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
-p {
-    margin-bottom: 12px;
-    color: var(--text-primary);
+.nav-container {
+    max-width: min(1400px, 85%);
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-a {
-    color: var(--accent);
+.main-nav a {
+    color: var(--text-secondary);
     text-decoration: none;
-    border-bottom: 1px dotted var(--accent);
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-a:hover {
-    color: var(--accent-hover);
-    border-bottom-style: solid;
+.main-nav a:hover {
+    color: var(--accent);
+    background-color: var(--bg-secondary);
+}
+
+.main-nav a i {
+    font-size: 16px;
+}
+
+.main-nav a.active {
+    color: var(--accent);
+    background-color: var(--bg-secondary);
+}
+
+a,
+a:visited,
+a:active,
+a:focus {
+    color: var(--accent) !important;
+    text-decoration: underline;
+    border-bottom: none;
+}
+
+.contact-links a {
+    color: var(--accent) !important;
+    border-bottom: none;
+}
+
+.contact-links a:hover {
+    color: var(--accent-hover) !important;
+}
+
+.affiliations a {
+    color: var(--accent) !important;
+    border-bottom: none;
+}
+
+.affiliations a:hover {
+    color: var(--accent-hover) !important;
 }
 
 .research-tags {
@@ -285,13 +347,13 @@ a:hover {
 }
 
 .pub-authors {
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-size: 12px;
     margin-bottom: 6px;
 }
 
 .pub-venue {
-    color: var(--accent);
+    color: var(--text-primary);
     font-size: 13px;
     margin-bottom: 8px;
 }
@@ -361,6 +423,29 @@ a:hover {
 
 .copy-btn i {
     font-size: 14px;
+}
+
+.address {
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.address-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.address-line i {
+    width: 16px;
+    margin-top: 4px;
+    color: var(--text-secondary);
+}
+
+.address-indent {
+    padding-left: 26px;
 }
 
 .contact-links {
@@ -530,6 +615,41 @@ strong {
         max-width: 100%;
         width: 100%;
         margin: 0;
+    }
+
+    .main-nav {
+        padding: 8px 0;
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        right: 0;
+        border-top: 1px solid var(--border);
+        border-bottom: none;
+    }
+
+    .nav-container {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .main-nav a {
+        padding: 8px;
+        flex: 1;
+        flex-direction: column;
+        font-size: 12px;
+        gap: 4px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .main-nav a i {
+        font-size: 18px;
+    }
+
+    /* Add padding to main content to account for fixed nav */
+    .container {
+        padding-bottom: 70px;
     }
 
     .hero {
@@ -707,4 +827,46 @@ strong {
     .email-link {
         font-size: 12px;
     }
+}
+
+/* Remove any custom blue color usage */
+
+/* Remove inline or hardcoded blue for .more-link, .external-links, .tag, .news-item, .pub-meta, etc. */
+.more-link,
+.external-links a,
+.tag,
+.news-item .title,
+.pub-meta a,
+.pub-meta span,
+.pub-title,
+.pub-authors,
+.pub-venue {
+    color: var(--text-primary) !important;
+    border-bottom: none;
+}
+
+.more-link:hover,
+.external-links a:hover,
+.tag:hover,
+.news-item .title:hover,
+.pub-meta a:hover,
+.pub-links a:hover {
+    color: var(--accent-hover) !important;
+}
+
+/* Remove any blue color from icons */
+.contact-links .fa-researchgate,
+.contact-links .fa-github,
+contact-links .fa-linkedin,
+contact-links .fa-x-twitter,
+contact-links .fa-graduation-cap {
+    color: var(--accent) !important;
+}
+
+.contact-links a:hover .fa-researchgate,
+.contact-links a:hover .fa-github,
+contact-links a:hover .fa-linkedin,
+contact-links a:hover .fa-x-twitter,
+contact-links a:hover .fa-graduation-cap {
+    color: var(--accent-hover) !important;
 }
