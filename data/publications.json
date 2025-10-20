@@ -10,7 +10,7 @@
             "doi_link": "",
             "project_page": "https://ac-rad.github.io/roboculture/",
             "media_link": "https://ac-rad.github.io/roboculture/static/videos/S9.mp4",
-            "media_type": ""
+            "media_type": "video"
         },
         {
             "title": "AnyPlace: Learning Generalizable Object Placement for Robot Manipulation",

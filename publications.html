@@ -134,8 +134,10 @@
                 if (pub.media_type === 'video') {
                     mediaHTML = `
                         <div class="pub-media-container">
-                            <img src="${getVideoThumbnail(pub.media_link)}" alt="${pub.title}" class="pub-media">
-                            <div class="play-button">▶</div>
+                            <video src="${pub.media_link}" controls preload="metadata">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="play-button"><i class="fas fa-play-circle"></i></div>
                         </div>
                     `;
                 } else if (pub.media_type === 'image') {
@@ -149,7 +151,7 @@
                 // Default placeholder icon
                 mediaHTML = `
                     <div class="pub-media-container">
-                        <div class="pub-placeholder-icon">📄</div>
+                        <div class="pub-placeholder-icon"><i class="fas fa-file-alt"></i></div>
                     </div>
                 `;
             }
