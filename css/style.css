@@ -49,28 +49,28 @@ body {
     padding: 20px;
 }
 
+/* Integrated theme toggle button style inside nav */
 .theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
+    all: unset;
+    cursor: pointer;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    font-size: 24px;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
+    font-size: 16px;
+    color: var(--text-secondary);
+    background: none;
+    transition: color 0.15s, border-color 0.15s, background-color 0.15s;
 }
 
-.theme-toggle:hover {
-    transform: scale(1.1);
+.theme-toggle:hover,
+.theme-toggle:focus {
+    color: var(--accent);
     border-color: var(--accent);
+    background-color: var(--bg-secondary);
+    outline: none;
 }
 
 .hero {
@@ -184,42 +184,50 @@ h2 {
     padding-bottom: 10px;
 }
 
+/* Refined navigation bar */
 .main-nav {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: var(--bg-primary);
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border);
-    padding: 12px 0;
+    padding: 10px 0;
     margin-bottom: 30px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 
 .nav-container {
     max-width: min(1400px, 85%);
     margin: 0 auto;
     display: flex;
-    gap: 20px;
+    gap: 8px;
     justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
+    flex-wrap: nowrap;
 }
 
 .main-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    font-size: 14px;
     color: var(--text-secondary);
     text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
+    background: none;
+    position: relative;
+    transition: color 0.15s, background-color 0.15s, border-color 0.15s;
 }
 
-.main-nav a:hover {
+.main-nav a:hover,
+.main-nav a:focus {
     color: var(--accent);
+    border-color: var(--accent);
     background-color: var(--bg-secondary);
+    outline: none;
 }
 
 .main-nav a i {
@@ -227,8 +235,19 @@ h2 {
 }
 
 .main-nav a.active {
-    color: var(--accent);
-    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--accent);
+}
+
+.main-nav a.active::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 4px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
 }
 
 a,
@@ -611,23 +630,20 @@ strong {
 @media (max-width: 768px) {
     .container {
         padding: 15px;
-        padding-top: 110px;
-        /* space for sticky top nav */
+        padding-top: 100px;
+        /* space for fixed nav */
         max-width: 100%;
         width: 100%;
         margin: 0;
     }
 
     .main-nav {
-        padding: 8px 0;
+        padding: 6px 0;
         position: fixed;
-        /* keep at top */
         top: 0;
         left: 0;
         right: 0;
-        bottom: auto;
         border-bottom: 1px solid var(--border);
-        border-top: none;
     }
 
     .nav-container {
@@ -635,9 +651,9 @@ strong {
         padding: 0 10px;
     }
 
-    .main-nav a {
-        padding: 6px 10px;
-        flex: 0 1 auto;
+    .main-nav a,
+    .theme-toggle {
+        padding: 8px 10px;
         font-size: 13px;
         gap: 6px;
         line-height: 1.1;
@@ -819,22 +835,26 @@ strong {
 
 @media (max-width: 480px) {
     .container {
-        padding-top: 100px;
+        padding-top: 90px;
     }
 
     .main-nav a span {
         display: none;
     }
 
-    .main-nav a {
-        padding: 8px 10px;
+    .main-nav a,
+    .theme-toggle {
+        padding: 12px;
+        min-width: 48px;
+        justify-content: center;
+        border-radius: 10px;
     }
 
-    .main-nav a i {
+    .main-nav a i,
+    .theme-toggle #theme-icon {
         font-size: 20px;
     }
 
-    /* allow tap targets */
     .main-nav .nav-container {
         justify-content: space-around;
     }

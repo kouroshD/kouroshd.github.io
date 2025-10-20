@@ -63,18 +63,16 @@
     <div class="nav-container">
         <a href="index.html" aria-label="Home"><i class="fas fa-home" aria-hidden="true"></i><span>Home</span></a>
         <a href="about.html" aria-label="About"><i class="fas fa-user" aria-hidden="true"></i><span>About</span></a>
-        <a href="research.html" aria-label="Research"><i class="fas fa-robot"
-                aria-hidden="true"></i><span>Research</span></a>
-        <a href="publications.html" aria-label="Publications"><i class="fas fa-book"
-                aria-hidden="true"></i><span>Publications</span></a>
+        <a href="research.html" aria-label="Research"><i class="fas fa-robot" aria-hidden="true"></i><span>Research</span></a>
+        <a href="publications.html" aria-label="Publications"><i class="fas fa-book" aria-hidden="true"></i><span>Publications</span></a>
         <a href="news.html" aria-label="News"><i class="fas fa-newspaper" aria-hidden="true"></i><span>News</span></a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" aria-pressed="false">
+            <span id="theme-icon">🌙</span>
+        </button>
     </div>
 </nav>
 
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-        <span id="theme-icon">🌙</span>
-    </button>
 
     <div class="container">
         <header style="border-bottom: 2px solid var(--border); padding-bottom: 20px; margin-bottom: 30px;">
@@ -95,7 +93,7 @@
         </main>
 
         <footer>
-            <p>Last updated: <span id="last-updated"></span> | © 2024 Kourosh Darvish</p>
+            <p>Last updated: <span id="last-updated"></span> | © <span id="current-year"></span> Kourosh Darvish</p>
         </footer>
     </div>
 
@@ -105,34 +103,49 @@
             try {
                 const response = await fetch('data/news.json');
                 const data = await response.json();
-
                 const newsContainer = document.getElementById('all-news');
 
-                if (!data.news || data.news.length === 0) {
+                let items = Array.isArray(data.news) ? data.news : Array.isArray(data) ? data : [];
+                items = items.filter(item => !item.hidden);
+
+                if (items.length === 0) {
                     newsContainer.innerHTML = '<p style="color: var(--text-secondary);">No news yet.</p>';
+                    // Fallback: show today as last updated
+                    setLastUpdated(new Date());
                     return;
                 }
 
-                const newsHTML = data.news
-                    .filter(item => !item.hidden)
-                    .map(item => createNewsHTML(item))
-                    .join('');
+                // Render all news
+                const newsHTML = items.map(item => createNewsHTML(item)).join('');
                 newsContainer.innerHTML = newsHTML;
 
-                if (data.last_updated) {
-                    const date = new Date(data.last_updated);
-                    document.getElementById('last-updated').textContent = date.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    });
-                }
-
+                // Determine latest date among items
+                const parseDate = (s) => {
+                    if (!s) return 0;
+                    let t = Date.parse(s);
+                    if (!isNaN(t)) return t;
+                    t = Date.parse('1 ' + s);
+                    return isNaN(t) ? 0 : t;
+                };
+                const latestTs = items.reduce((max, item) => Math.max(max, parseDate(item.date)), 0);
+                const latestDate = latestTs ? new Date(latestTs) : new Date();
+                setLastUpdated(latestDate);
             } catch (error) {
                 console.error('Error loading news:', error);
-                document.getElementById('all-news').innerHTML =
-                    '<p style="color: var(--text-secondary);">Unable to load news.</p>';
+                document.getElementById('all-news').innerHTML = '<p style="color: var(--text-secondary);">Unable to load news.</p>';
+                // Still show today's date so footer isn't blank
+                setLastUpdated(new Date());
             }
+        }
+
+        function setLastUpdated(dateObj) {
+            const el = document.getElementById('last-updated');
+            if (!el) return;
+            el.textContent = dateObj.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
         }
 
         function createNewsHTML(item) {

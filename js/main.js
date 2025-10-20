@@ -22,4 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', 'light');
         themeIcon.textContent = '☀️';
     }
+
+    // Set dynamic year on all pages with span#current-year
+    document.querySelectorAll('#current-year').forEach(el => {
+        el.textContent = new Date().getFullYear();
+    });
 });
